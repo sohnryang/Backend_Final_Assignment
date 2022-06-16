@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES6",
+    "moduleResolution": "node",
+    "strict": true,
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "typeRoots": ["node_modules/@types"],
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*"]
+}
