@@ -12,10 +12,10 @@ export class Card {
 
   // Term of the card, if the card is text-based.
   @Column({ nullable: true })
-  term: string;
+  term: string | null;
 
   // Image of the card, if the card is image-based.
   // OneToOne relations are nullable by default.
   @OneToOne(() => Image, (image) => image.card, { onDelete: "CASCADE" })
-  image: Image;
+  image: Image | null;
 }
