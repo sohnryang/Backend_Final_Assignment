@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "module": "CommonJS",
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "target": "ES6",
     "moduleResolution": "node",
     "strict": true,
