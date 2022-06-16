@@ -16,6 +16,6 @@ export class Card {
 
   // Image of the card, if the card is image-based.
   // OneToOne relations are nullable by default.
-  @OneToOne(() => Image, (image) => image.card, { onDelete: "CASCADE" })
+  @OneToOne(() => Image, { onDelete: "CASCADE" })
   image: Image | null;
 }

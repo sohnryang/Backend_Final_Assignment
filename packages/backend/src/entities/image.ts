@@ -1,5 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Card } from "./card";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Image {
@@ -10,8 +9,4 @@ export class Image {
   // Filenames are base58-encoded SHA256 sum of files.
   @Column({ length: 50 })
   name: string;
-
-  // Card matched to the image.
-  @OneToOne(() => Card, (card) => card.image, { onDelete: "CASCADE" })
-  card: Card;
 }
