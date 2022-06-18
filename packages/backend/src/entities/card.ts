@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Image } from "./image";
 
 @Entity()
@@ -21,8 +15,9 @@ export class Card {
   term!: string | null;
 
   // Image of the card, if the card is image-based.
-  // OneToOne relations are nullable by default.
-  @OneToOne(() => Image, { onDelete: "CASCADE" })
-  @JoinColumn()
+  @OneToOne(() => Image, (image) => image.card, {
+    nullable: true,
+    cascade: true,
+  })
   image!: Image | null;
 }

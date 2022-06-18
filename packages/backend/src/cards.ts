@@ -15,8 +15,8 @@ const imageRepository = AppDataSource.getRepository(Image);
 cardsRouter.use(express.json());
 
 // On GET request on endpoint root, respond with all cards.
-cardsRouter.get("/", (_, res) => {
-  res.send(cardRepository.find());
+cardsRouter.get("/", async (_, res) => {
+  res.send(await cardRepository.find({ relations: ["image"] }));
 });
 
 // On GET request with ID, respond with the card with corresponding ID.
@@ -60,7 +60,10 @@ cardsRouter.post("/", async (req: TypedRequestBody<CardsPostRequest>, res) => {
     image = await imageRepository.findOneBy({ id: req.body.imageId });
   card.image = image;
 
-  await imageRepository.save(card);
+  await AppDataSource.manager.save(card);
+
+  // Respond with 201 when created successfully.
+  res.statusCode = 201;
   res.end();
 });
 
