@@ -2,8 +2,8 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
+    "build": "parcel build ./src/index.html",
     "start": "parcel ./src/index.html --open"
   },
   "author": "",
