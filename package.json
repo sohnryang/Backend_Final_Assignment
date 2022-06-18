@@ -2,10 +2,7 @@
   "name": "backend_final_assignment",
   "version": "1.0.0",
   "description": "포애퍼 백엔드 세미나 파이널 어싸인",
-  "scripts": {
-    "postinstall": "./release-tasks.sh",
-    "start": "cd ./packages/backend && npm start"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sohnryang/Backend_Final_Assignment.git"
