@@ -1,0 +1,16 @@
+{
+  "name": "backend_final_assignment",
+  "version": "1.0.0",
+  "description": "포애퍼 백엔드 세미나 파이널 어싸인",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sohnryang/Backend_Final_Assignment.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sohnryang/Backend_Final_Assignment/issues"
+  },
+  "homepage": "https://github.com/sohnryang/Backend_Final_Assignment#readme"
+}
