@@ -9,7 +9,10 @@ import cardsRouter from "./cards";
 AppDataSource.initialize()
   .then(() => {
     const app = express();
-    const distPath = path.join(__dirname, "../frontend/dist");
+    const distPath = path.join(
+      __dirname,
+      process.env.FRONTEND_DIST || "../frontend/dist"
+    );
 
     app.use(express.static(distPath));
     app.use("/cards", cardsRouter);
