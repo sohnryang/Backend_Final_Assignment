@@ -26,10 +26,8 @@ jobs:
     - name: Build frontend
       run: npm run build --if-present
       working-directory: ./frontend
-    - name: Tar bundled files
-      run: tar -czvf frontend-bundled.tar.gz ./frontend/dist
     - name: Upload bundled files
       uses: actions/upload-artifact@v3
       with:
         name: frontend-bundled
-        path: ./frontend-bundled.tar.gz
+        path: ./frontend/dist
