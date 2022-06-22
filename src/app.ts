@@ -5,6 +5,8 @@ import { AppDataSource } from "./data-source";
 import express from "express";
 import path from "path";
 import cardsRouter from "./cards";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 AppDataSource.initialize()
   .then(() => {
@@ -16,6 +18,24 @@ AppDataSource.initialize()
 
     app.use(express.static(distPath));
     app.use("/cards", cardsRouter);
+
+    const specs = swaggerJSDoc({
+      definition: {
+        openapi: "3.0.0",
+        info: {
+          title: "Memory box API docs",
+          version: "1.0.0",
+          description: "Docs for card and image management APIs",
+          license: { name: "MIT", url: "https://spdx.org/licenses/MIT.html" },
+        },
+      },
+      apis: [
+        "./src/cards.ts",
+        "./src/entities/*.ts",
+        "./src/request-types/*.ts",
+      ],
+    });
+    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
     app.get("/", (_, res) => {
       res.sendFile(path.join(distPath, "index.html"));
