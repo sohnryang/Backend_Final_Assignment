@@ -49,6 +49,47 @@ cardsRouter.post("/", async (req: TypedRequestBody<CardsPostRequest>, res) => {
   // Respond with 422 error if bote image ID and term is null.
   if (req.body.imageId == null && req.body.term == null) {
     res.statusCode = 422;
+// On PUT requests, update the card with corresponding ID.
+cardsRouter.put(
+  "/:id",
+  async (req: TypedRequestBody<CardsPostRequest>, res) => {
+    const id = parseInt(req.params.id);
+
+    // Respond with 400 error if ID cannot be parsed.
+    if (isNaN(id)) {
+      res.statusCode = 400;
+      res.end();
+      return;
+    }
+
+    // Respond with 422 error if both image ID and term is null.
+    if (req.body.imageId == null && req.body.term == null) {
+      res.statusCode = 422;
+      res.end();
+      return;
+    }
+
+    const card = new Card();
+
+    // Respond with 404 error if the card with ID is nonexistent.
+    if (card == null) {
+      res.statusCode = 404;
+      res.end();
+      return;
+    }
+
+    card.label = req.body.label;
+    card.term = req.body.term;
+    await cardRepository.update(id, card);
+
+    let image = null;
+    if (req.body.imageId != null)
+      image = await imageRepository.findOneBy({ id: req.body.imageId });
+    await cardRepository
+      .createQueryBuilder()
+      .relation("image")
+      .of(id)
+      .set(image);
     res.end();
     return;
   }
