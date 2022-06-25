@@ -5,6 +5,7 @@ import { AppDataSource } from "./data-source";
 import express from "express";
 import path from "path";
 import cardsRouter from "./cards";
+import imagesRouter from "./images";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
@@ -18,6 +19,7 @@ AppDataSource.initialize()
 
     app.use(express.static(distPath));
     app.use("/cards", cardsRouter);
+    app.use("/images", imagesRouter);
 
     const specs = swaggerJSDoc({
       definition: {
@@ -31,6 +33,7 @@ AppDataSource.initialize()
       },
       apis: [
         "./src/cards.ts",
+        "./src/images.ts",
         "./src/entities/*.ts",
         "./src/request-types/*.ts",
       ],
