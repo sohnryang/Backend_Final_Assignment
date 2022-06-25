@@ -1,14 +1,9 @@
-import {
-  DeleteObjectCommand,
-  GetObjectCommand,
-  S3Client,
-} from "@aws-sdk/client-s3";
 import { AppDataSource } from "./data-source";
 import { Image } from "./entities/image";
 import express from "express";
 import multer from "multer";
 import multerS3 from "multer-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { defaultClient, deleteObject, fetchSignedUrl } from "./aws-utils";
 
 /**
  * @openapi
@@ -22,12 +17,9 @@ const imagesRouter = express.Router();
 imagesRouter.use(express.json());
 
 // Set up multer for uploading to S3. (actually cloudflare R2)
-const client = new S3Client({
-  endpoint: `https://${process.env.ACCOUNT_ID}.r2.cloudflarestorage.com`,
-});
 const upload = multer({
   storage: multerS3({
-    s3: client,
+    s3: defaultClient,
     bucket: process.env.BUCKET_NAME!,
     metadata: (_, file, cb) => {
       cb(null, { fieldName: file.fieldname });
@@ -138,14 +130,7 @@ imagesRouter.get("/:id", async (req, res) => {
     return;
   }
 
-  const url = await getSignedUrl(
-    client,
-    new GetObjectCommand({
-      Bucket: process.env.BUCKET_NAME,
-      Key: findResult.name,
-    }),
-    { expiresIn: 3600 }
-  );
+  const url = await fetchSignedUrl(findResult.name);
   return res.redirect(url);
 });
 
@@ -167,12 +152,7 @@ imagesRouter.delete("/:id", async (req, res) => {
     res.end();
     return;
   }
-  await client.send(
-    new DeleteObjectCommand({
-      Bucket: process.env.BUCKET_NAME,
-      Key: image.name,
-    })
-  );
+  await deleteObject(image.name);
   await imageRepository.remove(image);
   res.end();
 });
