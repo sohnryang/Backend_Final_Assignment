@@ -13,6 +13,7 @@
   "dependencies": {
     "@aws-sdk/abort-controller": "^3.110.0",
     "@aws-sdk/client-s3": "^3.117.0",
+    "@aws-sdk/s3-request-presigner": "^3.118.0",
     "@types/express": "^4.17.13",
     "@types/multer": "^1.4.7",
     "@types/multer-s3": "^3.0.0",

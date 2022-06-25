@@ -1,9 +1,14 @@
-import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { AppDataSource } from "./data-source";
 import { Image } from "./entities/image";
 import express from "express";
 import multer from "multer";
 import multerS3 from "multer-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 /**
  * @openapi
@@ -90,12 +95,8 @@ imagesRouter.post("/", upload.single("image"), async (req, res) => {
  *         description: ID of the image to get.
  *     tags: [Images API]
  *     responses:
- *       "200":
+ *       "302":
  *         description: The request succeeded.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Image'
  *       "400":
  *         description: Failed to parse ID.
  *       "404":
@@ -137,7 +138,15 @@ imagesRouter.get("/:id", async (req, res) => {
     return;
   }
 
-  res.send(findResult);
+  const url = await getSignedUrl(
+    client,
+    new GetObjectCommand({
+      Bucket: process.env.BUCKET_NAME,
+      Key: findResult.name,
+    }),
+    { expiresIn: 3600 }
+  );
+  return res.redirect(url);
 });
 
 imagesRouter.delete("/:id", async (req, res) => {

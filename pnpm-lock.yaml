@@ -6,6 +6,7 @@ importers:
     specifiers:
       '@aws-sdk/abort-controller': ^3.110.0
       '@aws-sdk/client-s3': ^3.117.0
+      '@aws-sdk/s3-request-presigner': ^3.118.0
       '@types/express': ^4.17.13
       '@types/multer': ^1.4.7
       '@types/multer-s3': ^3.0.0
@@ -28,6 +29,7 @@ importers:
     dependencies:
       '@aws-sdk/abort-controller': 3.110.0
       '@aws-sdk/client-s3': 3.117.0
+      '@aws-sdk/s3-request-presigner': 3.118.0
       '@types/express': 4.17.13
       '@types/multer': 1.4.7
       '@types/multer-s3': 3.0.0
@@ -774,6 +776,22 @@ packages:
       tslib: 2.4.0
     dev: false
 
+  /@aws-sdk/s3-request-presigner/3.118.0:
+    resolution: {integrity: sha512-ui7Os+g6VcqJwDqYKRd9mbutg58QzS9PhSMQ1cercJa4FluINTK9igSBmEj25L6HW4s/FzOt+mpGM7mmSBaLYg==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      '@aws-sdk/middleware-sdk-s3': 3.110.0
+      '@aws-sdk/protocol-http': 3.110.0
+      '@aws-sdk/signature-v4-multi-region': 3.118.0
+      '@aws-sdk/smithy-client': 3.110.0
+      '@aws-sdk/types': 3.110.0
+      '@aws-sdk/util-create-request': 3.110.0
+      '@aws-sdk/util-format-url': 3.110.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - '@aws-sdk/signature-v4-crt'
+    dev: false
+
   /@aws-sdk/service-error-classification/3.110.0:
     resolution: {integrity: sha512-ccgCE0pU/4RmXR6CP3fLAdhPAve7bK/yXBbGzpSHGAQOXqNxYzOsAvQ30Jg6X+qjLHsI/HR2pLIE65z4k6tynw==}
     engines: {node: '>= 12.0.0'}
@@ -791,6 +809,22 @@ packages:
     engines: {node: '>= 12.0.0'}
     peerDependencies:
       '@aws-sdk/signature-v4-crt': ^3.79.0
+    peerDependenciesMeta:
+      '@aws-sdk/signature-v4-crt':
+        optional: true
+    dependencies:
+      '@aws-sdk/protocol-http': 3.110.0
+      '@aws-sdk/signature-v4': 3.110.0
+      '@aws-sdk/types': 3.110.0
+      '@aws-sdk/util-arn-parser': 3.55.0
+      tslib: 2.4.0
+    dev: false
+
+  /@aws-sdk/signature-v4-multi-region/3.118.0:
+    resolution: {integrity: sha512-Uih3SR5d3XBeUtiMFkDERx7jLOZSXvVrhikA9p416FIPWZ5649sQ/esYsDvWBB39nbnYMx/QlsR+imCvh8XlhQ==}
+    engines: {node: '>= 12.0.0'}
+    peerDependencies:
+      '@aws-sdk/signature-v4-crt': ^3.118.0
     peerDependenciesMeta:
       '@aws-sdk/signature-v4-crt':
         optional: true
@@ -885,6 +919,16 @@ packages:
       tslib: 2.4.0
     dev: false
 
+  /@aws-sdk/util-create-request/3.110.0:
+    resolution: {integrity: sha512-8u+6WjzVNUdG4181y/zafIlGJ80qdSIKo09utlY7kvSZhYeufjkgMLhJtthb9uEEmXNn/UlKGJNRbGChjSL4Xw==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      '@aws-sdk/middleware-stack': 3.110.0
+      '@aws-sdk/smithy-client': 3.110.0
+      '@aws-sdk/types': 3.110.0
+      tslib: 2.4.0
+    dev: false
+
   /@aws-sdk/util-defaults-mode-browser/3.110.0:
     resolution: {integrity: sha512-Y2dcOOD20S3bv/IjUqpdKIiDt6995SXNG5Pu/LeSdXNyLCOIm9rX4gHTxl9fC1KK5M/gR9fGJ362f67WwqEEqw==}
     engines: {node: '>= 10.0.0'}
@@ -903,6 +947,15 @@ packages:
       '@aws-sdk/credential-provider-imds': 3.110.0
       '@aws-sdk/node-config-provider': 3.110.0
       '@aws-sdk/property-provider': 3.110.0
+      '@aws-sdk/types': 3.110.0
+      tslib: 2.4.0
+    dev: false
+
+  /@aws-sdk/util-format-url/3.110.0:
+    resolution: {integrity: sha512-NES/Kf92stj6bMl3WyaKFlA5yKbYlb357buoXKv51MnjcLL6NAgIWm0lMQv6UgzLVTxKdbw4BxErpSiKM+10Xg==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      '@aws-sdk/querystring-builder': 3.110.0
       '@aws-sdk/types': 3.110.0
       tslib: 2.4.0
     dev: false
