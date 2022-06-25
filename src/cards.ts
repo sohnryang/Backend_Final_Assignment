@@ -4,6 +4,7 @@ import { Image } from "./entities/image";
 import express from "express";
 import { CardsPostRequest } from "./request-types/cards";
 import { TypedRequestBody } from "./typed-request";
+import { deleteObject } from "./aws-utils";
 
 /**
  * @openapi
@@ -160,7 +161,7 @@ cardsRouter.get("/:id", async (req, res) => {
 
   const findResult = await cardRepository.findOne({
     where: { id: id },
-    relations: ["image"],
+    relations: { image: true },
   });
 
   // Respond with 404 error if the card with ID is nonexistent.
@@ -193,7 +194,10 @@ cardsRouter.put(
       return;
     }
 
-    const card = new Card();
+    const card = await cardRepository.findOne({
+      where: { id: id },
+      relations: { image: true },
+    });
 
     // Respond with 404 error if the card with ID is nonexistent.
     if (card == null) {
@@ -204,16 +208,26 @@ cardsRouter.put(
 
     card.label = req.body.label;
     card.term = req.body.term;
-    await cardRepository.update(id, card);
-
     let image = null;
-    if (req.body.imageId != null)
+    if (req.body.imageId != null) {
       image = await imageRepository.findOneBy({ id: req.body.imageId });
-    await cardRepository
-      .createQueryBuilder()
-      .relation("image")
+      if (image == undefined) return res.sendStatus(422);
+    }
+
+    // Remove image from bucket if the card holds an image.
+    let imageToDelete = null;
+    if (card.image != null && card.image.id != image?.id) {
+      imageToDelete = card.image;
+    }
+    await cardRepository.update({ id: id }, card);
+    await AppDataSource.createQueryBuilder()
+      .relation(Card, "image")
       .of(id)
       .set(image);
+    if (imageToDelete != null) {
+      await imageRepository.delete(imageToDelete.id);
+      deleteObject(imageToDelete.name);
+    }
     res.end();
   }
 );
@@ -229,7 +243,10 @@ cardsRouter.delete("/:id", async (req, res) => {
     return;
   }
 
-  const card = await cardRepository.findOneBy({ id: id });
+  const card = await cardRepository.findOne({
+    where: { id: id },
+    relations: ["image"],
+  });
 
   // Respond with 404 error if the card with ID is nonexistent.
   if (card == null) {
@@ -237,7 +254,17 @@ cardsRouter.delete("/:id", async (req, res) => {
     res.end();
     return;
   }
+
+  // Remove image from bucket if the card holds an image.
+  let imageToDelete = null;
+  if (card.image != null) {
+    imageToDelete = card.image;
+  }
   await cardRepository.remove(card);
+  if (imageToDelete != null) {
+    await imageRepository.delete(imageToDelete.id);
+    deleteObject(imageToDelete.name);
+  }
   res.end();
 });
 

@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
-import { Card } from "./card";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 /**
  * @openapi
@@ -21,9 +14,6 @@ import { Card } from "./card";
  *           type: integer
  *         name:
  *           type: string
- *         card:
- *           $ref: '#/components/schemas/Card'
- *           nullable: true
  */
 @Entity()
 export class Image {
@@ -33,9 +23,4 @@ export class Image {
   // Image name for referencing in the bucket.
   @Column()
   name: string;
-
-  // Bidirectional reference to Card.
-  @OneToOne(() => Card, (card) => card.image, { onDelete: "CASCADE" })
-  @JoinColumn()
-  card!: Card | null;
 }
