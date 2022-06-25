@@ -21,7 +21,7 @@ const client = new S3Client({
 const upload = multer({
   storage: multerS3({
     s3: client,
-    bucket: "card-images",
+    bucket: process.env.BUCKET_NAME!,
     metadata: (_, file, cb) => {
       cb(null, { fieldName: file.fieldname });
     },
@@ -156,7 +156,10 @@ imagesRouter.delete("/:id", async (req, res) => {
     return;
   }
   await client.send(
-    new DeleteObjectCommand({ Bucket: "card-images", Key: image.name })
+    new DeleteObjectCommand({
+      Bucket: process.env.BUCKET_NAME,
+      Key: image.name,
+    })
   );
   await imageRepository.remove(image);
   res.end();
