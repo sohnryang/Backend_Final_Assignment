@@ -7,14 +7,31 @@ import {
 } from "typeorm";
 import { Card } from "./card";
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Image:
+ *       type: object
+ *       required:
+ *         - id
+ *         - name
+ *       properties:
+ *         id:
+ *           type: integer
+ *         name:
+ *           type: string
+ *         card:
+ *           $ref: '#/components/schemas/Card'
+ *           nullable: true
+ */
 @Entity()
 export class Image {
   @PrimaryGeneratedColumn()
   id: number;
 
   // Image name for referencing in the bucket.
-  // Filenames are base58-encoded SHA256 sum of files.
-  @Column({ length: 50 })
+  @Column()
   name: string;
 
   // Bidirectional reference to Card.
