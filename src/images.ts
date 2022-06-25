@@ -13,8 +13,10 @@ import multerS3 from "multer-s3";
  */
 const imagesRouter = express.Router();
 
+// Use JSON for this endpoint.
 imagesRouter.use(express.json());
 
+// Set up multer for uploading to S3. (actually cloudflare R2)
 const client = new S3Client({
   endpoint: `https://${process.env.ACCOUNT_ID}.r2.cloudflarestorage.com`,
 });
@@ -31,6 +33,7 @@ const upload = multer({
   }),
 });
 
+// Get TypeORM repository for image entity.
 const imageRepository = AppDataSource.getRepository(Image);
 
 /**
