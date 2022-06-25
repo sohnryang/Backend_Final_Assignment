@@ -19,7 +19,7 @@ import { Image } from "./image";
  *           type: string
  *           nullable: true
  *         image:
- *           type: object
+ *           $ref: '#/components/schemas/Image'
  *           nullable: true
  *       example:
  *         id: 42
