@@ -35,7 +35,7 @@ export class Image {
   name: string;
 
   // Bidirectional reference to Card.
-  @OneToOne(() => Card, (card) => card.image)
+  @OneToOne(() => Card, (card) => card.image, { onDelete: "CASCADE" })
   @JoinColumn()
   card!: Card | null;
 }
