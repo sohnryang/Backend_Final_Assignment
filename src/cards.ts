@@ -158,7 +158,10 @@ cardsRouter.get("/:id", async (req, res) => {
     return;
   }
 
-  const findResult = await cardRepository.findOneBy({ id: id });
+  const findResult = await cardRepository.findOne({
+    where: { id: id },
+    relations: ["image"],
+  });
 
   // Respond with 404 error if the card with ID is nonexistent.
   if (findResult == undefined) {
