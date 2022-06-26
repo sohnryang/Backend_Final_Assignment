@@ -55,8 +55,12 @@ export default function CardList() {
       <nav>
         <Link to="/new-card">카드 추가</Link>
         <br />
-        <Link to="/learn">학습 시작</Link>
-        <br />
+        {cards.length > 0 && (
+          <>
+            <Link to="/learn">학습 시작</Link>
+            <br />
+          </>
+        )}
         <br />
         <Link to="/">Home</Link>
       </nav>
