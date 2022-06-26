@@ -44,6 +44,7 @@ export default function CardList() {
                 editEnabled={true}
                 editCard={editCard}
                 removeCard={removeCard}
+                hideLabel={false}
               />
             ))
           ) : (

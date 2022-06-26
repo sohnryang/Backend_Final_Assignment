@@ -10,6 +10,7 @@ type CardProps = {
   editEnabled: boolean;
   editCard?: (id: number) => void;
   removeCard?: (id: number) => void;
+  hideLabel: boolean;
 };
 
 export function Card(props: CardProps) {
@@ -20,7 +21,7 @@ export function Card(props: CardProps) {
       ) : (
         <img className="cardImage" src={props.imageUrl!} />
       )}
-      <p>{props.label}</p>
+      {!props.hideLabel && <p>{props.label}</p>}
       {props.editEnabled && (
         <div>
           <button onClick={() => props.editCard!(props.id)}>편집</button>
