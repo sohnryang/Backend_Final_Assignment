@@ -153,11 +153,7 @@ cardsRouter.get("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
 
   // Respond with 400 error if ID cannot be parsed.
-  if (isNaN(id)) {
-    res.statusCode = 400;
-    res.end();
-    return;
-  }
+  if (isNaN(id)) return res.status(400).send();
 
   const findResult = await cardRepository.findOne({
     where: { id: id },
@@ -165,11 +161,7 @@ cardsRouter.get("/:id", async (req, res) => {
   });
 
   // Respond with 404 error if the card with ID is nonexistent.
-  if (findResult == undefined) {
-    res.statusCode = 404;
-    res.end();
-    return;
-  }
+  if (findResult == undefined) return res.status(404).send();
 
   res.send(findResult);
 });
@@ -181,18 +173,11 @@ cardsRouter.put(
     const id = parseInt(req.params.id);
 
     // Respond with 400 error if ID cannot be parsed.
-    if (isNaN(id)) {
-      res.statusCode = 400;
-      res.end();
-      return;
-    }
+    if (isNaN(id)) return res.sendStatus(400);
 
     // Respond with 422 error if both image ID and term is null.
-    if (req.body.imageId == null && req.body.term == null) {
-      res.statusCode = 422;
-      res.end();
-      return;
-    }
+    if (req.body.imageId == null && req.body.term == null)
+      return res.sendStatus(422);
 
     const card = await cardRepository.findOne({
       where: { id: id },
@@ -200,11 +185,7 @@ cardsRouter.put(
     });
 
     // Respond with 404 error if the card with ID is nonexistent.
-    if (card == null) {
-      res.statusCode = 404;
-      res.end();
-      return;
-    }
+    if (card == null) return res.status(404).send();
 
     card.label = req.body.label;
     card.term = req.body.term;
@@ -237,11 +218,7 @@ cardsRouter.delete("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
 
   // Respond with 400 error if ID cannot be parsed.
-  if (isNaN(id)) {
-    res.statusCode = 400;
-    res.end();
-    return;
-  }
+  if (isNaN(id)) return res.sendStatus(400);
 
   const card = await cardRepository.findOne({
     where: { id: id },
@@ -249,11 +226,7 @@ cardsRouter.delete("/:id", async (req, res) => {
   });
 
   // Respond with 404 error if the card with ID is nonexistent.
-  if (card == null) {
-    res.statusCode = 404;
-    res.end();
-    return;
-  }
+  if (card == null) return res.sendStatus(404);
 
   // Remove image from bucket if the card holds an image.
   let imageToDelete = null;

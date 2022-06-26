@@ -60,9 +60,7 @@ const imageRepository = AppDataSource.getRepository(Image);
  *         description: File was not provided.
  */
 imagesRouter.post("/", upload.single("image"), async (req, res) => {
-  if (req.file == undefined) {
-    return res.status(400).send();
-  }
+  if (req.file == undefined) return res.status(400).send();
 
   const image = new Image();
   // @ts-ignore
@@ -115,20 +113,12 @@ imagesRouter.get("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
 
   // Respond with 400 error if ID cannot be parsed.
-  if (isNaN(id)) {
-    res.statusCode = 400;
-    res.end();
-    return;
-  }
+  if (isNaN(id)) return res.sendStatus(400);
 
   const findResult = await imageRepository.findOneBy({ id: id });
 
-  // Respond with 404 error if the card with ID is nonexistent.
-  if (findResult == undefined) {
-    res.statusCode = 404;
-    res.end();
-    return;
-  }
+  // Respond with 404 error if the image with ID is nonexistent.
+  if (findResult == undefined) return res.sendStatus(404);
 
   const url = await fetchSignedUrl(findResult.name);
   return res.redirect(url);
@@ -138,20 +128,12 @@ imagesRouter.delete("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
 
   // Respond with 400 error if ID cannot be parsed.
-  if (isNaN(id)) {
-    res.statusCode = 400;
-    res.end();
-    return;
-  }
+  if (isNaN(id)) return res.sendStatus(400);
 
   const image = await imageRepository.findOneBy({ id: id });
 
-  // Respond with 404 error if the card with ID is nonexistent.
-  if (image == null) {
-    res.statusCode = 404;
-    res.end();
-    return;
-  }
+  // Respond with 404 error if the image with ID is nonexistent.
+  if (image == null) return res.sendStatus(404);
   await deleteObject(image.name);
   await imageRepository.remove(image);
   res.end();
