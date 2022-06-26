@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Route, Routes } from "react-router-dom";
+import NewCard from "./new-card/new-card";
 import CardList from "./card-list/card-list";
 
 function Home() {
@@ -43,6 +44,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/card-list" element={<CardList />} />
+        <Route path="/new-card" element={<NewCard />} />
       </Routes>
     </div>
   );

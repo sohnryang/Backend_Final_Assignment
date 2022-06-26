@@ -49,7 +49,7 @@ export default function CardList() {
         </div>
       </main>
       <nav>
-        <Link to="/create-card">카드 추가</Link>
+        <Link to="/new-card">카드 추가</Link>
         <br />
         <Link to="/learn">학습 시작</Link>
         <br />
