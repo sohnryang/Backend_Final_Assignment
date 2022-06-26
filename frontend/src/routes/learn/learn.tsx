@@ -67,9 +67,7 @@ export default function Learn() {
           id={currentCard!.id}
           label={currentCard!.label}
           term={currentCard!.term}
-          imageUrl={`${process.env.API_SERVER}/images/${
-            currentCard!.image?.id
-          }`}
+          imageUrl={`/images/${currentCard!.image?.id}`}
           editEnabled={false}
           hideLabel={true}
         />

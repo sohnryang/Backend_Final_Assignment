@@ -40,7 +40,7 @@ export default function CardList() {
                 id={card.id}
                 label={card.label}
                 term={card.term}
-                imageUrl={`${process.env.API_SERVER}/images/${card.image?.id}`}
+                imageUrl={`/images/${card.image?.id}`}
                 editEnabled={true}
                 editCard={editCard}
                 removeCard={removeCard}
