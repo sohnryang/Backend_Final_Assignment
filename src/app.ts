@@ -3,6 +3,7 @@ import "reflect-metadata";
 
 import { AppDataSource } from "./data-source";
 import express from "express";
+import cors from "cors";
 import path from "path";
 import cardsRouter from "./cards";
 import imagesRouter from "./images";
@@ -18,6 +19,7 @@ AppDataSource.initialize()
     );
 
     app.use(express.static(distPath));
+    app.use(cors());
     app.use("/cards", cardsRouter);
     app.use("/images", imagesRouter);
 
