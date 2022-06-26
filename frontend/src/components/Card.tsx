@@ -22,8 +22,8 @@ export function Card(props: CardProps) {
       <p>{props.label}</p>
       {props.editEnabled && (
         <div>
-          <button onClick={() => props.removeCard!(props.id)}>편집</button>
-          <button onClick={() => props.editCard!(props.id)}>삭제</button>
+          <button onClick={() => props.editCard!(props.id)}>편집</button>
+          <button onClick={() => props.removeCard!(props.id)}>삭제</button>
         </div>
       )}
     </div>
