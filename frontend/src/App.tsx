@@ -45,6 +45,9 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/card-list" element={<CardList />} />
         <Route path="/new-card" element={<NewCard />} />
+        <Route path="/edit-card">
+          <Route path=":editedCardId" element={<NewCard />} />
+        </Route>
       </Routes>
     </div>
   );

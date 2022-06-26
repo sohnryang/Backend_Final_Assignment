@@ -1,16 +1,39 @@
-import React, { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { CardsPostRequest } from "request-types/cards";
 
 import client from "../api-client";
+import { Card } from "../entities/card";
 import { Image } from "../entities/image";
 
 import "./new-card.css";
 
 export default function NewCard() {
+  const { editedCardId } = useParams();
   const [cardType, setCardType] = useState("text");
   const [uploaded, setUploaded] = useState(false);
   const [currentImage, setCurrentImage] = useState<Image | null>(null);
+  const [term, setTerm] = useState<string>("");
+  const [label, setLabel] = useState("");
   const navigate = useNavigate();
+
+  if (editedCardId != undefined) {
+    useEffect(() => {
+      async function populateData() {
+        const res = await client.get<Card>(`/cards/${editedCardId}`);
+        const card = res.data;
+        setLabel(card.label);
+        if (card.term != null) {
+          setCardType("text");
+          setTerm(card.term);
+        } else {
+          setCardType("image");
+          setCurrentImage(card.image);
+        }
+      }
+      populateData();
+    }, []);
+  }
 
   const cleanupCurrentImage = async () => {
     if (currentImage != null) await client.delete(`/images/${currentImage.id}`);
@@ -21,6 +44,14 @@ export default function NewCard() {
     setUploaded(false);
     cleanupCurrentImage();
     setCardType(e.target.value);
+  };
+
+  const handleTermChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTerm(e.target.value);
+  };
+
+  const handleLabelChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setLabel(e.target.value);
   };
 
   const labelRef = useRef<HTMLInputElement>(null);
@@ -57,33 +88,32 @@ export default function NewCard() {
       alert("레이블을 입력하세요.");
       return;
     }
+    const reqBody: CardsPostRequest = {
+      label: labelRef.current!.value,
+      term: null,
+      imageId: null,
+    };
     if (cardType == "text") {
-      if (termRef.current?.value.length == 0) {
+      if (termRef.current!.value.length == 0) {
         alert("단어를 입력하세요.");
         return;
       }
-      await client.post("/cards", {
-        label: labelRef.current?.value,
-        term: termRef.current?.value,
-        imageId: null,
-      });
+      reqBody.term = termRef.current!.value;
     } else {
       if (!uploaded) {
         alert("이미지를 업로드하세요.");
         return;
       }
-      await client.post("/cards", {
-        label: labelRef.current?.value,
-        term: null,
-        imageId: currentImage?.id,
-      });
+      reqBody.imageId = currentImage!.id;
     }
-    navigate("../card-list", { replace: true });
+    if (editedCardId == undefined) await client.post("/cards", reqBody);
+    else await client.put(`/cards/${editedCardId}`, reqBody);
+    navigate("/card-list", { replace: true });
   };
 
   return (
     <main>
-      <h2>새로운 카드 추가</h2>
+      <h2>{editedCardId != undefined ? "카드 편집" : "새로운 카드 추가"}</h2>
       <form className="newCardForm">
         <div className="newCardForm">
           <label>
@@ -110,7 +140,13 @@ export default function NewCard() {
         {cardType == "text" ? (
           <div className="newCardForm">
             <label htmlFor="term">단어</label>
-            <input type="text" name="term" ref={termRef} />
+            <input
+              type="text"
+              name="term"
+              ref={termRef}
+              value={term}
+              onChange={handleTermChange}
+            />
           </div>
         ) : (
           <div className="newCardForm">
@@ -132,10 +168,19 @@ export default function NewCard() {
         )}
         <div className="newCardForm">
           <label htmlFor="label">레이블</label>
-          <input type="text" name="label" ref={labelRef} />
+          <input
+            type="text"
+            name="label"
+            ref={labelRef}
+            value={label}
+            onChange={handleLabelChange}
+          />
         </div>
         <button type="button" onClick={handleCreateCardButton}>
-          카드 생성
+          {editedCardId != undefined ? "카드 편집" : "카드 생성"}
+        </button>
+        <button type="button" onClick={() => navigate("/card-list")}>
+          취소
         </button>
       </form>
     </main>

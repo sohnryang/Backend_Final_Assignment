@@ -1,12 +1,13 @@
 import { Card } from "../components/Card";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./card-list.css";
 import client from "../api-client";
 import { Card as CardEntity } from "../entities/card";
 
 export default function CardList() {
   const [cards, setCards] = React.useState<CardEntity[]>([]);
+  const navigate = useNavigate();
   React.useEffect(() => {
     async function fetchCards() {
       const res = await client.get<CardEntity[]>("/cards");
@@ -22,7 +23,7 @@ export default function CardList() {
   };
 
   const editCard = (id: number) => {
-    console.log(`Edit card ${id}`);
+    navigate(`../edit-card/${id}`, { replace: true });
   };
 
   return (
