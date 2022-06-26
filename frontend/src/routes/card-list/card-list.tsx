@@ -1,14 +1,16 @@
-import { Card } from "../../components/Card";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./card-list.css";
+
 import client from "../../api-client";
+import { Card } from "../../components/Card";
 import { Card as CardEntity } from "../../entities/card";
 
+import "./card-list.css";
+
 export default function CardList() {
-  const [cards, setCards] = React.useState<CardEntity[]>([]);
+  const [cards, setCards] = useState<CardEntity[]>([]);
   const navigate = useNavigate();
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchCards() {
       const res = await client.get<CardEntity[]>("/cards");
       setCards(res.data);
