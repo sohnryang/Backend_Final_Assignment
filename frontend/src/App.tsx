@@ -3,6 +3,7 @@ import { Link, Route, Routes } from "react-router-dom";
 
 import NewCard from "./routes/new-card/new-card";
 import CardList from "./routes/card-list/card-list";
+import Learn from "./routes/learn/learn";
 
 function Home() {
   return (
@@ -49,6 +50,7 @@ function App() {
         <Route path="/edit-card">
           <Route path=":editedCardId" element={<NewCard />} />
         </Route>
+        <Route path="/learn" element={<Learn />} />
       </Routes>
     </div>
   );
