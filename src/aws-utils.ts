@@ -7,6 +7,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export const defaultClient = new S3Client({
   endpoint: `https://${process.env.ACCOUNT_ID}.r2.cloudflarestorage.com`,
+  region: "auto",
 });
 
 export function fetchSignedUrl(key: string): Promise<string> {
