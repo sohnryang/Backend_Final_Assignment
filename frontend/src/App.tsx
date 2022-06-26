@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Route, Routes } from "react-router-dom";
+import CardList from "./card-list/card-list";
 
 function Home() {
   return (
@@ -9,6 +10,8 @@ function Home() {
         <p>PoApper 백엔드 파이널 어싸인</p>
       </main>
       <nav>
+        <Link to="/card-list">카드 리스트</Link>
+        <br />
         <Link to="/about">About</Link>
       </nav>
     </>
@@ -39,6 +42,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/card-list" element={<CardList />} />
       </Routes>
     </div>
   );
