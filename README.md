@@ -14,6 +14,7 @@
 - TypeORM: DB 관리를 위한 ORM.
 - Cloudflare R2: 이미지 저장소 역할. AWS S3와 API 호환성이 보장되기 때문에 `multer-s3`로 무리 없이 이미지 업로드를 구현할 수 있었음. (베타이지만 저비용이라 가난한 학부생에게 매우 적합)
 - Heroku: 서버 호스팅. (무료라 가난한 학부생에게 매우 적합)
+- Swagger: [API 문서](https://memory-box-poapper.herokuapp.com/api-docs/) 작성에 사용.
 
 ## Frontend
 - TypeScript, React.js를 사용하여 구현. (`frontend` 디렉토리에서 코드 확인 가능)
