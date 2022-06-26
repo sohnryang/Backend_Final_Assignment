@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/app.js",
-    "build": "tsc && wget https://nightly.link/sohnryang/Backend_Final_Assignment/workflows/deploy/master/frontend-bundled.zip && mkdir frontend-bundled && cd frontend-bundled && unzip ../frontend-bundled.zip",
+    "build": "tsc && wget https://nightly.link/sohnryang/Backend_Final_Assignment/workflows/frontend-bundle/master/frontend-bundled.zip && mkdir frontend-bundled && cd frontend-bundled && unzip ../frontend-bundled.zip",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/app.ts"
   },
   "author": "",
