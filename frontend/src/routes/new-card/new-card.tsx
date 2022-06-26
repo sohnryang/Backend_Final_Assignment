@@ -2,9 +2,9 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CardsPostRequest } from "request-types/cards";
 
-import client from "../api-client";
-import { Card } from "../entities/card";
-import { Image } from "../entities/image";
+import client from "../../api-client";
+import { Card } from "../../entities/card";
+import { Image } from "../../entities/image";
 
 import "./new-card.css";
 

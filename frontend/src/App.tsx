@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Route, Routes } from "react-router-dom";
-import NewCard from "./new-card/new-card";
-import CardList from "./card-list/card-list";
+import NewCard from "./routes/new-card/new-card";
+import CardList from "./routes/card-list/card-list";
 
 function Home() {
   return (
